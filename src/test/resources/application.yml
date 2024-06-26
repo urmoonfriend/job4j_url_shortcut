@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: job4j_url_shortcut
+  main:
+    banner-mode: off
+  datasource:
+    url: jdbc:h2:mem:test;MODE=PostgreSQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
+    username:
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+    properties:
+      hibernate:
+        show_sql: false
+  liquibase:
+    change-log: classpath:db/db.changelog-master.xml
+  test:
+    database:
+      replace: none
+server:
+  port: 8085
+  servlet:
+    context-path: /
+  error:
+    include-message: always
+
+logging:
+  level:
+    org:
+      springframework: ERROR
+      hibernate: ERROR
+      apache: ERROR
+    kz:
+      job4j: ERROR
+    root: WARN
