@@ -1,6 +1,5 @@
 package kz.job4j.shortcut.service.impl;
 
-import kz.job4j.shortcut.enums.ResultCode;
 import kz.job4j.shortcut.model.Site;
 import kz.job4j.shortcut.model.Statistic;
 import kz.job4j.shortcut.model.Url;
@@ -46,8 +45,8 @@ public class UrlServiceImpl implements UrlService {
      */
     @Override
     @Transactional
-    public ResultMessage<Url> create(Url url) {
-        ResultMessage<Url> result = ResultMessage.failure(ResultCode.UNKNOWN_ERROR.name());
+    public Optional<ResultMessage<Url>> create(Url url) {
+        ResultMessage<Url> result = ResultMessage.failure("Ошибка сервера");
         try {
             if (urlRepository.findByUrl(url.getUrl()).isPresent()) {
                 result = ResultMessage.failure("Url уже существует");
@@ -74,7 +73,7 @@ public class UrlServiceImpl implements UrlService {
         } catch (Exception e) {
             log.error("create method error: [{}]", e.getMessage(), e);
         }
-        return result;
+        return Optional.of(result);
     }
 
     private ResultMessage<String> extractDomain(Url url) {
@@ -82,7 +81,7 @@ public class UrlServiceImpl implements UrlService {
             URL parsedUrl = new URL(url.getUrl());
             return ResultMessage.success(parsedUrl.getHost());
         } catch (Exception e) {
-            return ResultMessage.failure(ResultCode.BAD_REQUEST.name());
+            return ResultMessage.failure("Некорректный Url");
         }
     }
 }

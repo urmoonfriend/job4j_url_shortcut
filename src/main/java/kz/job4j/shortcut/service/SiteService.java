@@ -1,7 +1,7 @@
 package kz.job4j.shortcut.service;
 
 import kz.job4j.shortcut.model.Site;
-import kz.job4j.shortcut.model.request.SignUpRequest;
+import kz.job4j.shortcut.model.dto.SignUpDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Optional;
@@ -13,14 +13,10 @@ public interface SiteService {
 
     Site create(Site site);
 
-    Site create(SignUpRequest request);
+    Site create(SignUpDto request);
 
     Site getByUsername(String username);
 
     UserDetailsService userDetailsService();
 
-    Site getCurrentSite();
-
-    @Deprecated
-    void getAdmin();
 }

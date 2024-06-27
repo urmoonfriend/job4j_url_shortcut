@@ -1,7 +1,6 @@
 package kz.job4j.shortcut.model;
 
 import jakarta.persistence.*;
-import kz.job4j.shortcut.enums.Role;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,10 +25,6 @@ public class Site implements UserDetails {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "site", cascade = CascadeType.ALL)
     private List<Url> urlList;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
-    private Role role;
 
     @Column(name = "site", unique = true, nullable = false)
     private String siteName;

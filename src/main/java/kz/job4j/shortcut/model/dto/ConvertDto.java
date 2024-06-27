@@ -1,4 +1,4 @@
-package kz.job4j.shortcut.model.request;
+package kz.job4j.shortcut.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;

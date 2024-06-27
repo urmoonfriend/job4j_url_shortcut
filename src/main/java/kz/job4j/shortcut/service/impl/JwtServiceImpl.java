@@ -45,7 +45,6 @@ public class JwtServiceImpl implements JwtService {
         if (userDetails instanceof Site customUserDetails) {
             claims.put("id", customUserDetails.getId());
             claims.put("site", customUserDetails.getSiteName());
-            claims.put("role", customUserDetails.getRole());
         }
         return generateToken(claims, userDetails);
     }

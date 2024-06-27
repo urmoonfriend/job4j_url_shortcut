@@ -1,14 +1,14 @@
 package kz.job4j.shortcut.service.impl;
 
-import kz.job4j.shortcut.enums.Role;
+import kz.job4j.shortcut.exceptions.SiteAlreadyExistsException;
+import kz.job4j.shortcut.exceptions.SiteNotFoundException;
+import kz.job4j.shortcut.exceptions.UsernameAlreadyExistsException;
 import kz.job4j.shortcut.model.Site;
-import kz.job4j.shortcut.model.request.SignUpRequest;
+import kz.job4j.shortcut.model.dto.SignUpDto;
 import kz.job4j.shortcut.repository.SiteRepository;
 import kz.job4j.shortcut.service.SiteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -42,24 +42,22 @@ public class SiteServiceImpl implements SiteService {
     @Override
     public Site create(Site site) {
         if (repository.existsByUsername(site.getUsername())) {
-            throw new RuntimeException("Сайт с таким username уже существует");
+            throw new UsernameAlreadyExistsException();
         }
 
         if (repository.findBySiteName(site.getSiteName()).isPresent()) {
-            throw new RuntimeException("Сайт уже существует");
+            throw new SiteAlreadyExistsException();
         }
 
         return save(site);
     }
 
     @Override
-    public Site create(SignUpRequest request) {
+    public Site create(SignUpDto request) {
         return create(new Site()
                 .setUsername(request.getUsername())
                 .setPassword(request.getPassword())
-                .setSiteName(request.getSite())
-                .setRole(request.getRole() != null
-                        ? request.getRole() : Role.ROLE_USER));
+                .setSiteName(request.getSite()));
     }
 
     /**
@@ -70,7 +68,7 @@ public class SiteServiceImpl implements SiteService {
     @Override
     public Site getByUsername(String username) {
         return repository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Site не найден"));
+                .orElseThrow(SiteNotFoundException::new);
     }
 
     /**
@@ -83,29 +81,6 @@ public class SiteServiceImpl implements SiteService {
     @Override
     public UserDetailsService userDetailsService() {
         return this::getByUsername;
-    }
-
-    /**
-     * Получение текущего сайта
-     *
-     * @return текущий сайт
-     */
-    @Override
-    public Site getCurrentSite() {
-        var username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return getByUsername(username);
-    }
-
-    /**
-     * Выдача прав администратора текущему сайту
-     * <p>
-     */
-    @Deprecated
-    @Override
-    public void getAdmin() {
-        var user = getCurrentSite();
-        user.setRole(Role.ROLE_ADMIN);
-        save(user);
     }
 
 }

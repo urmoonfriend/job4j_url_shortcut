@@ -1,9 +1,8 @@
 package kz.job4j.shortcut.service.impl;
 
-import kz.job4j.shortcut.enums.ResultCode;
 import kz.job4j.shortcut.model.dto.ResultMessage;
-import kz.job4j.shortcut.model.request.SignInRequest;
-import kz.job4j.shortcut.model.request.SignUpRequest;
+import kz.job4j.shortcut.model.dto.SignInDto;
+import kz.job4j.shortcut.model.dto.SignUpDto;
 import kz.job4j.shortcut.model.response.JwtAuthenticationResponse;
 import kz.job4j.shortcut.model.response.SiteRegistrationResponse;
 import kz.job4j.shortcut.service.AuthenticationService;
@@ -15,8 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +31,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return токен
      */
     @Override
-    public SiteRegistrationResponse signUp(SignUpRequest request) {
+    public SiteRegistrationResponse signUp(SignUpDto request) {
         SiteRegistrationResponse response = new SiteRegistrationResponse()
                 .setLogin(request.getUsername())
                 .setPassword(request.getPassword())
@@ -59,8 +56,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return токен
      */
     @Override
-    public ResultMessage<JwtAuthenticationResponse> signIn(SignInRequest request) {
-        ResultMessage<JwtAuthenticationResponse> response = ResultMessage.failure(ResultCode.BAD_CREDENTIALS.name());
+    public ResultMessage<JwtAuthenticationResponse> signIn(SignInDto request) {
+        ResultMessage<JwtAuthenticationResponse> response = ResultMessage.failure("Некорректные учетные данные");
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     request.getUsername(),

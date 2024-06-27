@@ -3,8 +3,7 @@ create table sites
     id       bigserial primary key not null,
     username varchar(2000) unique,
     password varchar(2000),
-    site     varchar(2000),
-    role     varchar(500)
+    site     varchar(2000)
 );
 
 create table urls
