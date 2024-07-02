@@ -69,7 +69,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .loadUserByUsername(request.getUsername());
 
             var jwt = jwtService.generateToken(userDetails);
-            response = ResultMessage.success(new JwtAuthenticationResponse(jwt));
+            response = ResultMessage.success(new JwtAuthenticationResponse().setToken(jwt));
         } catch (Exception e) {
             log.error("sign in error: [{}]", e.getMessage(), e);
         }

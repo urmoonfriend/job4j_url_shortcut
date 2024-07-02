@@ -76,7 +76,7 @@ public class UrlServiceImpl implements UrlService {
         return Optional.of(result);
     }
 
-    private ResultMessage<String> extractDomain(Url url) {
+    protected ResultMessage<String> extractDomain(Url url) {
         try {
             URL parsedUrl = new URL(url.getUrl());
             return ResultMessage.success(parsedUrl.getHost());

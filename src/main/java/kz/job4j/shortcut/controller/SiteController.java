@@ -8,8 +8,8 @@ import kz.job4j.shortcut.model.dto.SignUpDto;
 import kz.job4j.shortcut.model.dto.UrlDto;
 import kz.job4j.shortcut.model.response.JwtAuthenticationResponse;
 import kz.job4j.shortcut.model.response.SiteRegistrationResponse;
+import kz.job4j.shortcut.service.AuthenticationService;
 import kz.job4j.shortcut.service.UrlService;
-import kz.job4j.shortcut.service.impl.AuthenticationServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Slf4j
 public class SiteController {
-    private final AuthenticationServiceImpl authenticationService;
+    private final AuthenticationService authenticationService;
     private final UrlService urlService;
 
     @Operation(summary = "Регистрация сайта")
