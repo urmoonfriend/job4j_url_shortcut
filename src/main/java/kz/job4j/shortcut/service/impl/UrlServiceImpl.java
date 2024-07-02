@@ -67,7 +67,7 @@ public class UrlServiceImpl implements UrlService {
                         result = ResultMessage.failure("Site не найден");
                     }
                 } else {
-                    result = ResultMessage.failure(extractDomainResult.getMessage());
+                    result = ResultMessage.failure(extractDomainResult.getError());
                 }
             }
         } catch (Exception e) {
