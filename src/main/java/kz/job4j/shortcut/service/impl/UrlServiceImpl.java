@@ -49,7 +49,7 @@ public class UrlServiceImpl implements UrlService {
         ResultMessage<Url> result = ResultMessage.failure("Ошибка сервера");
         try {
             if (urlRepository.findByUrl(url.getUrl()).isPresent()) {
-                result = ResultMessage.failure("Url уже существует");
+                    result = ResultMessage.failure("Url уже существует");
             } else {
                 ResultMessage<String> extractDomainResult = extractDomain(url);
                 if (extractDomainResult.isSuccess()) {

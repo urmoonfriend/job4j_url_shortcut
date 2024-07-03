@@ -1,17 +1,18 @@
 package kz.job4j.shortcut.service.impl;
 
 import kz.job4j.shortcut.model.Site;
+import kz.job4j.shortcut.model.Statistic;
 import kz.job4j.shortcut.model.Url;
 import kz.job4j.shortcut.model.dto.ResultMessage;
 import kz.job4j.shortcut.model.dto.UrlDto;
+import kz.job4j.shortcut.repository.SiteRepository;
+import kz.job4j.shortcut.repository.StatisticRepository;
 import kz.job4j.shortcut.repository.UrlRepository;
-import kz.job4j.shortcut.service.SiteService;
 import kz.job4j.shortcut.service.UrlService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -26,18 +27,20 @@ public class UrlServiceImplTest {
     @Autowired
     private UrlService urlService;
 
-    @Mock
+    @MockBean
     private UrlRepository urlRepository;
 
-    @Mock
-    private SiteService siteService;
+    @MockBean
+    private SiteRepository siteRepository;
+
+    @MockBean
+    private StatisticRepository statisticRepository;
 
     @Test
-    @Transactional
     public void whenFindByIdAnIncreaseCountThenOK() {
         UUID id = UUID.randomUUID();
         Url url = new Url().setUrl("someId");
-        when(urlRepository.findById(id))
+        when(urlRepository.findById(any()))
                 .thenReturn(Optional.of(url));
 
         ResultMessage<UrlDto> result = urlService.findByIdAndIncreaseCount(id.toString());
@@ -67,11 +70,40 @@ public class UrlServiceImplTest {
         Url expected = new Url().setUrl(correctUrl);
 
         when(urlRepository.findByUrl(correctUrl)).thenReturn(Optional.empty());
-        when(siteService.findBySiteName(siteName)).thenReturn(Optional.of(site));
+        when(siteRepository.findBySiteName(siteName)).thenReturn(Optional.of(site));
         when(urlRepository.save(any(Url.class))).thenReturn(expected);
+        when(statisticRepository.save(any())).thenReturn(new Statistic());
         Optional<ResultMessage<Url>> result = urlService.create(url);
         assertThat(result).isEqualTo(Optional.of(ResultMessage.success(expected)));
-
     }
 
+    @Test
+    public void whenCreateThenUrlAlreadyExists() {
+        String correctUrl = "https://www.google.com";
+        Url url = new Url().setUrl(correctUrl);
+        Url expected = new Url().setUrl(correctUrl);
+        when(urlRepository.findByUrl(correctUrl)).thenReturn(Optional.of(expected));
+        Optional<ResultMessage<Url>> result = urlService.create(url);
+        assertThat(result).isEqualTo(Optional.of(ResultMessage.failure("Url уже существует")));
+    }
+
+    @Test
+    public void whenCreateThenSiteNotFound() {
+        String correctUrl = "https://www.google.com";
+        String siteName = "www.google.com";
+        Url url = new Url().setUrl(correctUrl);
+        when(urlRepository.findByUrl(correctUrl)).thenReturn(Optional.empty());
+        when(siteRepository.findBySiteName(siteName)).thenReturn(Optional.empty());
+        Optional<ResultMessage<Url>> result = urlService.create(url);
+        assertThat(result).isEqualTo(Optional.of(ResultMessage.failure("Site не найден")));
+    }
+
+    @Test
+    public void whenCreateThenServerError() {
+        String correctUrl = "https://www.google.com";
+        Url url = new Url().setUrl(correctUrl);
+        when(urlRepository.findByUrl(correctUrl)).thenThrow(RuntimeException.class);
+        Optional<ResultMessage<Url>> result = urlService.create(url);
+        assertThat(result).isEqualTo(Optional.of(ResultMessage.failure("Ошибка сервера")));
+    }
 }
