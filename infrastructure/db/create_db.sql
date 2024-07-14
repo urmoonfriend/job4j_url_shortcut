@@ -1,0 +1,1 @@
+create database url_shortcut_db;

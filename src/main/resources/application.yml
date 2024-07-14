@@ -1,6 +1,6 @@
 app:
   db:
-    url: jdbc:postgresql://127.0.0.1:5433/url_shortcut_db
+    url: jdbc:postgresql://localhost:5433/url_shortcut_db
     username: postgres
     password: postgres
 spring:
