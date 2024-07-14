@@ -1,3 +1,30 @@
 2024-06-28 11:08:53.839789+05:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
 SELECT COUNT(*) FROM DATABASECHANGELOGLOCK [42104-222]
+2024-07-13 20:22:45.694432+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SITES" already exists; SQL statement:
+create table sites
+(
+    id       bigserial primary key not null,
+    username varchar(2000) unique,
+    password varchar(2000),
+    site     varchar(2000)
+) [42101-222]
+2024-07-13 20:23:49.130054+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM DATABASECHANGELOGLOCK [42104-222]
+2024-07-13 20:23:49.131862+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM DATABASECHANGELOGLOCK [42104-222]
+2024-07-13 20:24:02.640725+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM DATABASECHANGELOGLOCK [42104-222]
+2024-07-13 21:09:36.195227+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM DATABASECHANGELOGLOCK [42104-222]
+2024-07-13 21:09:36.199294+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM DATABASECHANGELOGLOCK [42104-222]
+2024-07-13 21:13:00.716800+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM DATABASECHANGELOGLOCK [42104-222]
