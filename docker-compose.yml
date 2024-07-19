@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - SERVER_PORT=8085
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://service_db/url_shortcut_db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://service_db:5432/url_shortcut_db
     container_name: job4j_url_shortcut
     ports:
       - "8085:8085"
@@ -22,7 +22,7 @@ services:
       - ./infrastructure/db/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
       - db-data:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "5438:5432"
     restart: unless-stopped
   pgadmin:
     container_name: pgadmin4_container
